@@ -43,7 +43,7 @@ public class ApptTest {
 		int startHour = -1;
 		int startMinute = -1;
 		int startDay = -1;
-		int startMonth = -1
+		int startMonth = -1;
 	}
 //add more unit tests as you needed
 	
