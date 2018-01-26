@@ -35,7 +35,7 @@ public class CalDayTest {
 	@Test
 	public void test_addAppt() throws Throwable{
 		GregorianCalendar cal = new GregorianCalendar(2018, 1, 21);
-		Appt appt = new Appt(14, 11, 21, 1, 2018, "Title", "Description");
+		Appt appt = new Appt(14, 11, 21, 1, 2018, "Title", "Description");	//Hour, minute, day, month, year
 		CalDay d = new CalDay(cal);
 		d.addAppt(appt);
 		int add1 = d.getSizeAppts();
