@@ -43,7 +43,13 @@ public class ApptTest {
 		int startHour = -1;
 		int startMinute = -1;
 		int startDay = -1;
-		int startMonth = -1;
+		int startMonth = 1;
+		int startYear = -1;
+		String title = "Interview";
+		String description = "Interview for Tutoring Position.";
+		Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+
+		assertFalse(appt.getValid());
 	}
 //add more unit tests as you needed
 	
