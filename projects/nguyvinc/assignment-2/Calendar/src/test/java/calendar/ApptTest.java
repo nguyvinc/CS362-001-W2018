@@ -11,7 +11,7 @@ public class ApptTest {
      * Test that the gets methods work as expected.
      */
 	@Test
-	public void test01()  throws Throwable  {
+	public void test_apptConstructor ()  throws Throwable  {
 		int startHour=21;
 		int startMinute=30;
 		int startDay=15;
