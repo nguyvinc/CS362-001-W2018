@@ -101,6 +101,9 @@ public class ApptTest {
 		Appt pm_appt = new Appt(14, 11, 1, 1, 1, "Title", "Description");	//Valid PM appointment
 		assertEquals("\t1/1/1 at 2:11pm ,Title, Description\n", pm_appt.toString());
 		
+		Appt midnight_appt = new Appt(0, 11, 1, 1, 1, "Title", "Description");	//Valid 12AM appointment
+		assertEquals("\t1/1/1 at 12:11am ,Title, Description\n", midnight_appt.toString());
+		
 		Appt invalid_appt = new Appt(1, -1, 1, 1, 1, "Title", "Description");	//Invalid appointment
 		assertNull(invalid_appt.toString());
 	}
