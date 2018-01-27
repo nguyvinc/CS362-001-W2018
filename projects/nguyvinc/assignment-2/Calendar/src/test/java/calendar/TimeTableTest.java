@@ -49,12 +49,12 @@ public class TimeTableTest {
 		multiple_days = table.getApptRange(listAppts, day1, day3);
 		
 		assertEquals(1, days.size());
-		assertEquals(2, multiple_days.size());
+		assertEquals(13, multiple_days.size());
 	}
 	
 	@Test(expected = DateOutOfRangeException.class)
 	public void test_dateOutOfRange() throws Throwable{
-		//Date should be out of range
+		//Date should be out of range, second date is before first day
 		TimeTable table = new TimeTable();
 		GregorianCalendar day1 = new GregorianCalendar(2018, 1, 15);
 		GregorianCalendar oor = new GregorianCalendar(2018, 1, 5);
@@ -65,5 +65,76 @@ public class TimeTableTest {
 		
 		LinkedList<CalDay> invalid_list = new LinkedList<CalDay>();
 		invalid_list = table.getApptRange(listAppts, day1, oor);
+	}
+	
+	//Can't test getNextApptOccurrence, method is private, no appointments can be made to recur
+	
+	@Test
+	public void test_deleteAppt() throws Throwable{
+		TimeTable table = new TimeTable();
+		LinkedList<Appt> listAppts = new LinkedList<Appt>();
+		LinkedList<Appt> newList = new LinkedList<Appt>();
+		Appt appt = new Appt(15, 30, 15, 1, 2018, "Title", "Description");
+		
+		//Remove a valid appointment that's not there
+		listAppts = table.deleteAppt(listAppts, appt);
+		assertNull(listAppts);
+		
+		//Try to remove nothing
+		newList = table.deleteAppt(listAppts, null);
+		assertNull(newList);
+		
+		//Try to remove an appointment from null
+		newList = table.deleteAppt(null, appt);
+		assertNull(newList);
+		
+		//Invalid appointment
+		listAppts = new LinkedList<Appt>();
+		Appt invalid_appt = new Appt(-14, 30, 16, 1, 2018, "Invalid", "No");
+		listAppts.add(invalid_appt);
+		//Try to remove an invalid appointment
+		newList = table.deleteAppt(listAppts, invalid_appt);
+		assertNull(newList);
+		assertEquals(1, listAppts.size());
+		
+		//Remove a valid appointment that is there, doesn't work unless there are 3 appts
+		listAppts = new LinkedList<Appt>();
+		appt = new Appt(15, 30, 15, 1, 2018, "Title", "Description");
+		listAppts.add(appt);
+		listAppts.add(appt);
+		listAppts.add(appt);
+		listAppts = table.deleteAppt(listAppts, appt);
+		assertEquals(2, listAppts.size());
+	}
+	
+	@Test
+	public void test_permute() throws Throwable{
+		TimeTable table = new TimeTable();
+		LinkedList<Appt> apptList = new LinkedList<Appt>();
+		int[] array = new int[]{};
+		LinkedList<Appt> result = new LinkedList<Appt>();
+		result = table.permute(apptList, array);
+		assertEquals(0, result.size());
+		
+		Appt appt = new Appt(15, 30, 15, 1, 2018, "Title", "Description");
+		Appt appt2 = new Appt(17, 20, 15, 1, 2018, "Different Title", "Another Description");
+		apptList.add(appt);
+		apptList.add(appt2);
+		array = new int[]{1,1};
+		
+		result = table.permute(apptList, array);
+		assertEquals(2, result.size());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_failed_permute() throws Throwable{
+		TimeTable table = new TimeTable();
+		LinkedList<Appt> apptList = new LinkedList<Appt>();
+		Appt appt = new Appt(15, 30, 15, 1, 2018, "Title", "Description");
+		apptList.add(appt);
+		
+		int[] array = new int[]{};
+		LinkedList<Appt> result = new LinkedList<Appt>();
+		result = table.permute(apptList, array);
 	}
 }
