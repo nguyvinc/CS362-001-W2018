@@ -50,8 +50,19 @@ public class TimeTableTest {
 		
 		assertEquals(1, days.size());
 		assertEquals(13, multiple_days.size());
+		
+		//Add recurring appointment
+		int[] recurDays = {1, 2};
+		int recurBy = 1;
+		int recurIncrement = 1;
+		int recurNumber = 2;
+		appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
+		listAppts.add(appt);
+		multiple_days = table.getApptRange(listAppts, day1, day3);
+		assertEquals(13, multiple_days.size());
 	}
 	
+	//Asserted that it should throw an exception
 	@Test(expected = DateOutOfRangeException.class)
 	public void test_dateOutOfRange() throws Throwable{
 		//Date should be out of range, second date is before first day
@@ -66,8 +77,6 @@ public class TimeTableTest {
 		LinkedList<CalDay> invalid_list = new LinkedList<CalDay>();
 		invalid_list = table.getApptRange(listAppts, day1, oor);
 	}
-	
-	//Can't test getNextApptOccurrence, method is private, no appointments can be made to recur
 	
 	@Test
 	public void test_deleteAppt() throws Throwable{

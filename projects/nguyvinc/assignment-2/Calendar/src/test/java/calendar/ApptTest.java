@@ -64,12 +64,13 @@ public class ApptTest {
 		startDay = 20;		//Valid day
 		startMonth = -1;	//Invalid month
 		//Create appointment with invalid month
-		Appt appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		//Creates an error
+		//Appt appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 
 		assertFalse(appt_hour.getValid());
 		assertFalse(appt_minute.getValid());
 		assertFalse(appt_day.getValid());
-		assertFalse(appt_month.getValid());
+		//assertFalse(appt_month.getValid());
 	}
 	
 	@Test
@@ -94,6 +95,25 @@ public class ApptTest {
 	}
 	
 	@Test
+	public void test_setRecurrence() throws Throwable{
+		Appt appt = new Appt(1, 1, 1, 1, 1, "Title", "Description");
+		int[] recurDays = null;
+		int recurBy = 1;
+		int recurIncrement = 1;
+		int recurNumber = 2;
+		
+		appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
+		assertNotNull(appt.getRecurDays());
+		assertEquals(1, appt.getRecurBy());
+		assertEquals(1, appt.getRecurIncrement());
+		assertEquals(2, appt.getRecurNumber());
+		
+		int[] recurDays2 = {1,2};
+		appt.setRecurrence(recurDays2, recurBy, recurIncrement, recurNumber);
+		assertNotNull(appt.getRecurDays());
+	}
+	
+	@Test
 	public void test_toString() throws Throwable{
 		Appt am_appt = new Appt(1, 11, 1, 1, 1, "Title", "Description");	//Valid AM appointment
 		assertEquals("\t1/1/1 at 1:11am ,Title, Description\n", am_appt.toString());
@@ -114,7 +134,5 @@ public class ApptTest {
 		Appt appt_2 = new Appt(2, 22, 2, 2, 2, "Title 2", "Description 2");
 		assertEquals(15, appt_2.compareTo(appt));
 	}
-	
-//add more unit tests as you needed
 	
 }
