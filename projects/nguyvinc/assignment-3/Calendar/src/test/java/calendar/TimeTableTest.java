@@ -42,10 +42,12 @@ public class TimeTableTest {
 		listAppts.add(appt);
 		
 		LinkedList<CalDay> days = new LinkedList<CalDay>();
+		
 		days = table.getApptRange(listAppts, day1, day2);
 		
 		GregorianCalendar day3 = new GregorianCalendar(2018, 1, 28);
 		LinkedList<CalDay> multiple_days = new LinkedList<CalDay>();
+		
 		multiple_days = table.getApptRange(listAppts, day1, day3);
 		
 		assertEquals(1, days.size());
@@ -58,6 +60,7 @@ public class TimeTableTest {
 		int recurNumber = 2;
 		appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
 		listAppts.add(appt);
+		
 		multiple_days = table.getApptRange(listAppts, day1, day3);
 		assertEquals(13, multiple_days.size());
 	}
@@ -86,14 +89,17 @@ public class TimeTableTest {
 		Appt appt = new Appt(15, 30, 15, 1, 2018, "Title", "Description");
 		
 		//Remove a valid appointment that's not there
+		
 		listAppts = table.deleteAppt(listAppts, appt);
 		assertNull(listAppts);
 		
 		//Try to remove nothing
+		
 		newList = table.deleteAppt(listAppts, null);
 		assertNull(newList);
 		
 		//Try to remove an appointment from null
+		
 		newList = table.deleteAppt(null, appt);
 		assertNull(newList);
 		
@@ -102,8 +108,10 @@ public class TimeTableTest {
 		Appt invalid_appt = new Appt(-14, 30, 16, 1, 2018, "Invalid", "No");
 		listAppts.add(invalid_appt);
 		//Try to remove an invalid appointment
+		
 		newList = table.deleteAppt(listAppts, invalid_appt);
 		assertNull(newList);
+		
 		assertEquals(1, listAppts.size());
 		
 		//Remove a valid appointment that is there, doesn't work unless there are 3 appts
@@ -112,6 +120,7 @@ public class TimeTableTest {
 		listAppts.add(appt);
 		listAppts.add(appt);
 		listAppts.add(appt);
+		
 		listAppts = table.deleteAppt(listAppts, appt);
 		assertEquals(2, listAppts.size());
 	}

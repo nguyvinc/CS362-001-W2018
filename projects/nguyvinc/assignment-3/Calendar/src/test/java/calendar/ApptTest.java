@@ -65,12 +65,12 @@ public class ApptTest {
 		startMonth = -1;	//Invalid month
 		//Create appointment with invalid month
 		//Creates an error
-		//Appt appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		Appt appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 
 		assertFalse(appt_hour.getValid());
 		assertFalse(appt_minute.getValid());
 		assertFalse(appt_day.getValid());
-		//assertFalse(appt_month.getValid());
+		assertFalse(appt_month.getValid());
 	}
 	
 	@Test
