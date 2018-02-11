@@ -27,33 +27,43 @@ public class CalDayTest {
 		assertEquals(13, d.getDay());
 		assertEquals(5, d.getMonth());
 		assertEquals(2017, d.getYear());
-		assertEquals(0, d.getSizeAppts());
+		assertEquals(0, d.appts.size());
 		assertTrue(d.isValid());
+		assertNotNull(d.appts);
 	}
 	//add more unit tests as you need
 	
 	@Test
 	public void test_addAppt() throws Throwable{
 		GregorianCalendar cal = new GregorianCalendar(2018, 1, 21);
-		Appt appt = new Appt(14, 11, 21, 1, 2018, "Title", "Description");	//Hour, minute, day, month, year
+		Appt appt = new Appt(12, 11, 21, 1, 2018, "Title", "Description");	//Hour, minute, day, month, year
 		CalDay d = new CalDay(cal);
 		d.addAppt(appt);
-		int add1 = d.getSizeAppts();
+		assertEquals(1, d.getSizeAppts());
 		
-		Appt appt2 = new Appt(12, 11, 21, 1, 2018, "Title 2", "Description 2");
+		Appt appt2 = new Appt(11, 11, 21, 1, 2018, "Title 2", "Description 2");
 		d.addAppt(appt2);
-		int add2 = d.getSizeAppts();
+		assertEquals(2, d.getSizeAppts());
+		assertEquals(appt2, d.appts.get(0));
 		
 		Appt appt3 = new Appt(16, 11, 21, 1, 2018, "Title 3", "Description 3");
 		d.addAppt(appt3);
+		assertEquals(3, d.getSizeAppts());
+		assertEquals(appt3, d.appts.get(2));
+		
+		Appt appt4 = new Appt(13, 11, 21, 1, 2018, "Title 4", "Description 4");
+		d.addAppt(appt4);
+		assertEquals(4, d.getSizeAppts());
+		assertEquals(appt4, d.appts.get(2));
+		
+		Appt appt5 = new Appt(13, 11, 21, 1, 2018, "Title 5", "Description 5");	//Same hour as another appointment
+		d.addAppt(appt5);
+		assertEquals(5, d.getSizeAppts());
+		assertEquals(appt5, d.appts.get(3));
 		
 		Appt invalid_appt = new Appt(12, 11, -2, 1, 2018, "NOPE", "OKAY");
 		d.addAppt(invalid_appt);
-		
-		
-		assertEquals(1, add1);
-		assertEquals(2, add2);
-		assertEquals(3, d.getSizeAppts());
+		assertEquals(5, d.getSizeAppts());
 	}
 	
 	@Test

@@ -21,11 +21,13 @@ public class CalendarUtilTest{
 	public void test_isLeapYear() throws Throwable{
 		CalendarUtil tool = new CalendarUtil();
 		boolean leap100 = tool.IsLeapYear(100);
+		boolean leap200 = tool.IsLeapYear(200);
 		boolean leap400 = tool.IsLeapYear(400);
 		boolean leap4 = tool.IsLeapYear(2004);
 		boolean not_leap = tool.IsLeapYear(2005);
 		
-		//assertTrue(leap100);	//Supposed to be true, but is false...
+		assertFalse(leap100);	//Supposed to be true, but is false. Asserting false to kill mutation
+		assertFalse(leap200);	//Supposed to be true, but is false. Asserting false to kill mutation
 		assertTrue(leap400);
 		assertTrue(leap4);
 		assertFalse(not_leap);
