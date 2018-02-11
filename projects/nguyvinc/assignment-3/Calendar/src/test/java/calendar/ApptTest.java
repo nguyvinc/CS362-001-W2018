@@ -55,50 +55,43 @@ public class ApptTest {
 		//Create appointment with invalid hours
 		Appt appt_hour = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 		assertFalse(appt_hour.getValid());
-		startHour = 24;		//Invalid hour above
-		appt_hour = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_hour.setStartHour(24);		//Invalid hour above
 		assertFalse(appt_hour.getValid());
 		
 		//Create appointment with valid hour at border
-		startHour = 0;		//Valid hour, lower bound
-		appt_hour = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_hour.setStartHour(0); 		//Valid hour, lower bound
 		assertTrue(appt_hour.getValid());
-		startHour = 23;		//Valid hour, upper bound
-		appt_hour = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_hour.setStartHour(23);		//Valid hour, upper bound
 		assertTrue(appt_hour.getValid());		
 		
 		
 		//Create appointment with invalid minutes
+		startHour = 10;
 		startMinute = 60;	//Invalid minute above
 		Appt appt_minute = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 		assertFalse(appt_minute.getValid());
-		startMinute = -1;	//Invalid minute below
-		appt_minute = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_minute.setStartMinute(-1);	//Invalid minute below
 		assertFalse(appt_minute.getValid());
 		
 		//Create appointment with valid minute at border
-		startMinute = 0;	//Valid minute, lower bound
-		appt_minute = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_minute.setStartMinute(0);	//Valid minute, lower bound
 		assertTrue(appt_minute.getValid());
-		startMinute = 59;	//Valid minute, upper bound
-		appt_minute = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_minute.setStartMinute(59);	//Valid minute, upper bound
 		assertTrue(appt_minute.getValid());
 		
 		
 		//Create appointment with invalid days
-		startDay = 35;		//Invalid day above
+		startMinute = 10;
+		startDay = 35;					//Invalid day above
 		Appt appt_day = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 		assertFalse(appt_day.getValid());
-		startDay = 0;		//Invalid day below
-		appt_day = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_day.setStartDay(0);		//Invalid day below
 		assertFalse(appt_day.getValid());
 
 		//Create appointment with valid day at border
-		startDay = 1;		//Valid day, lower bound
-		appt_day = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_day.setStartDay(1);		//Valid day, lower bound
 		assertTrue(appt_day.getValid());
-		startDay = 31;		//Valid day, upper bound (Month is January: 31 days)
-		appt_day = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_day.setStartDay(31);		//Valid day, upper bound (Month is January: 31 days)
 		assertTrue(appt_day.getValid());		
 		
 		
@@ -107,18 +100,24 @@ public class ApptTest {
 		startMonth = 1;		//Valid month, lower bound
 		Appt appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 		assertTrue(appt_month.getValid());
-		startMonth = 12;	//Valid month, upper bound
-		appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_month.setStartMonth(12);	//Valid month, upper bound
 		assertTrue(appt_month.getValid());
 		
 		//Create appointment with invalid months
-		startMonth = 0;
 		//Creates errors
-		//appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		//appt_month.setStartMonth(0);
 		//assertFalse(appt_month.getValid());
-		startMonth = 13;
-		//appt_month = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		//appt_month.setStartMonth(13);
 		//assertFalse(appt_month.getValid());
+		
+		
+		//Create appointment with a year
+		startYear = 2000;
+		startMonth = 3;
+		Appt appt_year = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+		appt_year.setStartYear(2010);
+		assertTrue(appt_year.getValid());
+		
 	}
 	
 	@Test
