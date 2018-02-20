@@ -105,22 +105,22 @@ public class ApptRandomTest {
 
 	@Test
 	public void randomTestIsValid() throws Throwable{
-		for(int k=0; k<200; k++){
+		for(int k=0; k<500; k++){
 			//System.out.println("Test #" + k);
 			try{
 				long randomseed = System.currentTimeMillis();
-				Random random = new Random(randomseed);
+				Random random = new Random(randomseed);									//Random initialization
 				
-				int startHour = ValuesGenerator.RandInt(random);
-				int startMinute = ValuesGenerator.RandInt(random);
-				int startDay = ValuesGenerator.RandInt(random);
-				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);
-				int startYear = ValuesGenerator.RandInt(random);
-				String title = "Buy Groceries";
-				String description = "We are almost out of ice cream.";
-				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
-				
+				int startHour = ValuesGenerator.getRandomIntBetween(random, 0, 47);		//50% valid hour
+				int startMinute = ValuesGenerator.getRandomIntBetween(random, 0, 119);	//50% valid minute
+				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);	//Random valid Month
+				int startYear = ValuesGenerator.RandInt(random);						//Random Year
 				int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
+				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, 2*NumDaysInMonth); //50% valid day
+				
+				String title = ValuesGenerator.getString(random);
+				String description = ValuesGenerator.getString(random);
+				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 				
 				if(startHour < 0 || startHour > 23)
 					assertFalse(appt.getValid());
@@ -139,7 +139,7 @@ public class ApptRandomTest {
 	
 	@Test
 	public void randomTestSetRecurDays() throws Throwable{
-		for(int k=0; k<200; k++){
+		for(int k=0; k<500; k++){
 			//System.out.println("Test #" + k);
 			try{
 				long randomseed = System.currentTimeMillis();
@@ -152,8 +152,8 @@ public class ApptRandomTest {
 				int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
 				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);
 				
-				String title = "Buy Groceries";
-				String description = "We are almost out of ice cream.";
+				String title = ValuesGenerator.getString(random);
+				String description = ValuesGenerator.getString(random);
 				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
 				assertTrue(appt.getValid());
 				
@@ -163,13 +163,13 @@ public class ApptRandomTest {
 				int[] recurDays;
 				
 				int randomArraySize = ValuesGenerator.getRandomIntBetween(random, 0, 10);
-				if(randomArraySize == 10)
+				if(randomArraySize == 9)
 					recurDays = null;
 				else
 					recurDays = ValuesGenerator.generateRandomArray(random, randomArraySize);
 				appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
 				
-				if(randomArraySize == 0 || randomArraySize == 10)
+				if(randomArraySize == 0 || randomArraySize == 9)
 					assertEquals(0, appt.getRecurDays().length);
 				else
 					assertEquals(randomArraySize, appt.getRecurDays().length);
