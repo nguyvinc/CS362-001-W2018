@@ -64,6 +64,13 @@ public class TimeTableRandomTest {
 					assertNull(new_appts);						//Should be null
 					assertNull(null_list);						//Should be null
 				}
+				else if(randomize_remove == 9){					//If randomize = 9, try removing invalid appointment
+					Appt invalid_appt = new Appt(-1, 10, 10, 2, 2018, "Invalid", "Nope");
+					LinkedList<Appt> new_appts = table.deleteAppt(appts, invalid_appt);
+					LinkedList<Appt> null_list = table.deleteAppt(empty, invalid_appt);
+					assertNull(new_appts);						//Should be null
+					assertNull(null_list);						//Should be null
+				}
 				else{											//Else try removing appt
 					for(int j=0; j<10; j++){					//Check if appt is in the list, for assertion
 						Appt tempAppt = appts.get(j);
