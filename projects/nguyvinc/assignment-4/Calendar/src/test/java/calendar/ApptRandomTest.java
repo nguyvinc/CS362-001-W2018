@@ -105,31 +105,30 @@ public class ApptRandomTest {
 
 	@Test
 	public void randomTestIsValid() throws Throwable{
-		for(int k=0; k<500; k++){
+		for(int k=0; k<500; k++){	//500 Tests
 			//System.out.println("Test #" + k);
 			try{
-				long randomseed = System.currentTimeMillis();
-				Random random = new Random(randomseed);									//Random initialization
+				Random random = new Random();									//Random initialization
 				
 				int startHour = ValuesGenerator.getRandomIntBetween(random, 0, 47);		//50% valid hour
 				int startMinute = ValuesGenerator.getRandomIntBetween(random, 0, 119);	//50% valid minute
-				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);	//Random valid Month
+				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);	//Random valid month
 				int startYear = ValuesGenerator.RandInt(random);						//Random Year
 				int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
 				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, 2*NumDaysInMonth); //50% valid day
 				
-				String title = ValuesGenerator.getString(random);
-				String description = ValuesGenerator.getString(random);
-				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+				String title = ValuesGenerator.getString(random);						//Random title
+				String description = ValuesGenerator.getString(random);					//Random description
+				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);	//Random appointment
 				
 				if(startHour < 0 || startHour > 23)
-					assertFalse(appt.getValid());
+					assertFalse(appt.getValid());				//Assert if hour is not valid
 				else if(startMinute < 0 || startMinute > 59)
-					assertFalse(appt.getValid());
+					assertFalse(appt.getValid());				//Assert if minute is not valid
 				else if(startDay < 1 || startDay > NumDaysInMonth)
-					assertFalse(appt.getValid());
+					assertFalse(appt.getValid());				//Assert if day is not valid
 				else
-					assertTrue(appt.getValid());
+					assertTrue(appt.getValid());				//Else, assert appointment is valid
 				
 			}catch(NullPointerException e){
 				
@@ -139,37 +138,36 @@ public class ApptRandomTest {
 	
 	@Test
 	public void randomTestSetRecurDays() throws Throwable{
-		for(int k=0; k<500; k++){
+		for(int k=0; k<500; k++){	//500 Tests
 			//System.out.println("Test #" + k);
 			try{
-				long randomseed = System.currentTimeMillis();
-				Random random = new Random(randomseed);
+				Random random = new Random();									//Random initialization
 				
-				int startHour = ValuesGenerator.getRandomIntBetween(random, 0, 23);
-				int startMinute = ValuesGenerator.getRandomIntBetween(random, 0, 59);
-				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);
-				int startYear = ValuesGenerator.RandInt(random);
+				int startHour = ValuesGenerator.getRandomIntBetween(random, 0, 23);		//Random valid hour
+				int startMinute = ValuesGenerator.getRandomIntBetween(random, 0, 59);	//Random valid minute
+				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);	//Random valid month
+				int startYear = ValuesGenerator.RandInt(random);						//Random year
 				int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
-				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);
+				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);	//Random valid day
 				
-				String title = ValuesGenerator.getString(random);
-				String description = ValuesGenerator.getString(random);
-				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
-				assertTrue(appt.getValid());
+				String title = ValuesGenerator.getString(random);						//Random title
+				String description = ValuesGenerator.getString(random);					//Random description
+				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);	//Random appointment
+				assertTrue(appt.getValid());											//Assert appointment is true
 				
-				int recurBy = ValuesGenerator.RandInt(random);
-				int recurIncrement = ValuesGenerator.RandInt(random);
-				int recurNumber = ValuesGenerator.RandInt(random);
+				int recurBy = ValuesGenerator.RandInt(random);							//Random recur by value
+				int recurIncrement = ValuesGenerator.RandInt(random);					//Random recur increment value
+				int recurNumber = ValuesGenerator.RandInt(random);						//Random recur number
 				int[] recurDays;
 				
-				int randomArraySize = ValuesGenerator.getRandomIntBetween(random, 0, 10);
+				int randomArraySize = ValuesGenerator.getRandomIntBetween(random, 0, 10);		//Random array size
 				if(randomArraySize == 9)
-					recurDays = null;
+					recurDays = null;															//Recur days is null
 				else
-					recurDays = ValuesGenerator.generateRandomArray(random, randomArraySize);
-				appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);
+					recurDays = ValuesGenerator.generateRandomArray(random, randomArraySize);	//Random recur days
+				appt.setRecurrence(recurDays, recurBy, recurIncrement, recurNumber);			//Set occurrence
 				
-				if(randomArraySize == 0 || randomArraySize == 9)
+				if(randomArraySize == 0 || randomArraySize == 9)						//Assertions
 					assertEquals(0, appt.getRecurDays().length);
 				else
 					assertEquals(randomArraySize, appt.getRecurDays().length);

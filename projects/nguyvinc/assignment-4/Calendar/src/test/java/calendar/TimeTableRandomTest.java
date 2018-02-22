@@ -1,6 +1,7 @@
 package calendar;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.Random;
 import org.junit.Test;
@@ -17,67 +18,91 @@ public class TimeTableRandomTest {
      */
 	@Test
 	public void randomTestDeleteAppt() throws Throwable{
-		for(int k=0; k<2000; k++){	//2000 Tests
+		for(int k=0; k<1000; k++){	//1000 Tests
 			//System.out.println("Test #" + k+1);
 			int startHour, startMinute, startMonth, startYear, startDay, NumDaysInMonth, contains=0;
 			TimeTable table = new TimeTable();
 			try{
-				long randomseed = System.currentTimeMillis();
-				Random random = new Random(randomseed);
-				
+				Random random = new Random();
 				LinkedList<Appt> appts = new LinkedList<Appt>();
 				LinkedList<Appt> empty = null;
-				for(int j=0; j<100; j++){	//Add 10 appt to the list
-					startHour = ValuesGenerator.getRandomIntBetween(random, 23, 24);		//50% Valid hour
-					startMinute = ValuesGenerator.getRandomIntBetween(random, 1, 2);		//Valid minute
-					startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 2);			//Valid month
-					startYear = ValuesGenerator.getRandomIntBetween(random, 2000, 2002);	//Random year
+				Appt appt = new Appt(10, 10, 10, 2, 2018, "Potato", "Noodle");
+				
+				for(int j=0; j<10; j++){	//Add 10 appts to the list
+					startHour = ValuesGenerator.getRandomIntBetween(random, 1, 10);		//Random valid hour
+					startMinute = ValuesGenerator.getRandomIntBetween(random, 1, 59);	//Random valid minute
+					startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 12);	//Random valid month
+					startYear = 2018;
 					NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
-					startDay = ValuesGenerator.getRandomIntBetween(random, 1, 2);			//Valid day
+					startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);	//Random valid day
 					
-					String title = "Test removal";
-					String description = "If values match, one should be gone";
-					Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
-				
-					if(startHour < 0 || startHour > 23)
-						assertFalse(appt.getValid());
+					String title = "Test";
+					String description = "Remove";
+					Appt random_appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
+					
+					if(startHour < 0 || startHour > 23)			//Assertions
+						assertFalse(random_appt.getValid());
 					else if(startMinute < 0 || startMinute > 59)
-						assertFalse(appt.getValid());
+						assertFalse(random_appt.getValid());
 					else if(startDay < 1 || startDay > NumDaysInMonth)
-						assertFalse(appt.getValid());
+						assertFalse(random_appt.getValid());
 					else
-						assertTrue(appt.getValid());
-				
-					appts.add(appt);
+						assertTrue(random_appt.getValid());
+					
+					if(startHour == 10)							//If hour = 10, place appt in
+						appts.add(appt);
+					else										//Else, place randomly generated appt in list
+						appts.add(random_appt);
 				}
-				assertEquals(100, appts.size());		//Size of appt list equals 100
+				assertEquals(10, appts.size());					//Size of appt list equals 10
 				
-				startHour = ValuesGenerator.getRandomIntBetween(random, 23, 25);		//33% Valid hour
-				startMinute = ValuesGenerator.getRandomIntBetween(random, 1, 2);		//Valid minute
-				startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 2);			//Valid month
-				startYear = ValuesGenerator.getRandomIntBetween(random, 2000, 2002);	//Random year
-				NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
-				startDay = ValuesGenerator.getRandomIntBetween(random, 1, 2);			//Valid day
+				int randomize_remove = ValuesGenerator.getRandomIntBetween(random, 1, 10);	//Randomize if we want to remove null
 				
-				String title = "Test removal";
-				String description = "If values match, one should be gone";
-				Appt target_appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);
-				
-				if(startHour == 25)
-					target_appt = null;
-				
-				for(int j=0; j<100; j++){
-					Appt tempAppt = appts.get(j);
-					if(tempAppt.equals(target_appt)){
-						contains = 1;
+				if(randomize_remove == 10){						//If randomize = 10, try removing null
+					LinkedList<Appt> new_appts = table.deleteAppt(appts, null);
+					LinkedList<Appt> null_list = table.deleteAppt(empty, null);
+					assertNull(new_appts);						//Should be null
+					assertNull(null_list);						//Should be null
+				}
+				else{											//Else try removing appt
+					for(int j=0; j<10; j++){					//Check if appt is in the list, for assertion
+						Appt tempAppt = appts.get(j);
+						if(tempAppt.equals(appt)){
+							contains = 1;
+						}
 					}
+					LinkedList<Appt> new_appts = table.deleteAppt(appts, appt);
+					LinkedList<Appt> null_list = table.deleteAppt(empty, appt);
+					assertNull(null_list);						//Should always be null
+					if(contains == 0)
+						assertNull(new_appts);					//If appt is not in the list, null should be returned
+					else
+						assertEquals(9, new_appts.size());		//If appt is in the list, size should decrease
 				}
-				LinkedList<Appt> new_appts = table.deleteAppt(appts, target_appt);
-				LinkedList<Appt> null_list = table.deleteAppt(empty, target_appt);
-				if(contains == 0)
-					assertNull(new_appts);
-				else
-					assertEquals(99, new_appts.size());
+			}catch(NullPointerException e){
+				
+			}
+		}
+	}
+	
+	@Test(expected = DateOutOfRangeException.class)
+	public void randomTestGetApptRange_OutOfRange() throws Throwable{	//Should eventually throw an error and stop
+		TimeTable table = new TimeTable();
+		int startHour, startMinute, startMonth, startYear, startDay, NumDaysInMonth, contains=0;
+		for(int j=0; j<100; j++){
+			try{
+				Random random = new Random();
+				
+				startYear = 2018;
+				startMonth = 2;
+				NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
+				startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);
+				GregorianCalendar day1 = new GregorianCalendar(startYear, startDay, startMonth);	//Random day 1
+				
+				startDay = ValuesGenerator.getRandomIntBetween(random, 1, NumDaysInMonth);
+				GregorianCalendar day2 = new GregorianCalendar(startYear, startDay, startMonth);	//Random day 2
+				
+				table.getApptRange(null, day1, day2);
 				
 			}catch(NullPointerException e){
 				
@@ -87,6 +112,39 @@ public class TimeTableRandomTest {
 	
 	@Test
 	public void randomTestGetApptRange() throws Throwable{
-		
+		TimeTable table = new TimeTable();
+		int startHour, startMinute, startMonth, startYear, startDay, NumDaysInMonth, contains=0;
+		for(int j=0; j<100; j++){
+			try{
+				Random random = new Random();		//Initialize Random
+				
+				startYear = 2018;					//Set year
+				startMonth = 2;						//Set month
+				startDay = 1;
+				GregorianCalendar day1 = new GregorianCalendar(startYear, startDay, startMonth);	//Day 1
+				
+				NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
+				int startDay2 = ValuesGenerator.getRandomIntBetween(random, 2, NumDaysInMonth);
+				GregorianCalendar day2 = new GregorianCalendar(startYear, startDay2, startMonth);	//Random day after day 1
+				
+				LinkedList<Appt> apptList = new LinkedList<Appt>();
+				for(int k=0; k<5; k++){
+					startDay = ValuesGenerator.getRandomIntBetween(random, 2, NumDaysInMonth);		//Random valid day
+					startMinute = ValuesGenerator.getRandomIntBetween(random, 0, 59);				//Random valid minute
+					startHour = ValuesGenerator.getRandomIntBetween(random, 0, 23);					//Random valid hour
+					String title = ValuesGenerator.getString(random);								//Random title
+					String description = ValuesGenerator.getString(random);							//Random description
+					Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description);	//Random appointment
+					assertTrue(appt.getValid());	//Appointment should be valid
+					apptList.add(appt);				//Add appointment to list
+				}
+				assertEquals(5, apptList.size());	//5 appointments should have been added
+				
+				LinkedList<CalDay> days = table.getApptRange(apptList, day1, day2);
+				
+			}catch(NullPointerException e){
+				
+			}
+		}
 	}
 }
