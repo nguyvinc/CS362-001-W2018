@@ -71,12 +71,10 @@ public class CalDay {
 	 * appointments can be added. The appointment can also be added twice.
 	 */
 	public void addAppt(Appt appt) {
-		if (appt.getValid()) {
+		if (appt.getValid()){
 			for (int i = 0; i < getAppts().size(); i++) {
 				//Put the appointment in the correct order - finish this
-				if (((Appt)getAppts().get(i)).getStartHour() >
-										appt.getStartHour()) {
-					
+				if (((Appt)getAppts().get(i)).getStartHour() > appt.getStartHour()) {
 					getAppts().add(i, appt);
 					return;
 				}
