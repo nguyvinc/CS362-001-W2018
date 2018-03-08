@@ -1,0 +1,24 @@
+Bugs Detected:
+
+	CalendarUtil Class:
+1.		NumDaysInMonth function, line 32
+		function checks if the month "!=" February instead of "=="
+		so on a leap year, all months except February get one extra day.
+		
+		
+2.		IsLeapYear function, lines 46, 48, and 56
+		function checks if the year modded by leap years "!=" 0 instead of "=="
+		so all leap years are not considered leap years and all non-leap years are
+		considered leap years.
+		
+		
+	Appt Class:
+3.		isValid function, line 119
+		function checks if startMinute is ">10" instead of ">59" so all valid appointments
+		with startMinutes between 11 and 59 are considered invalid.
+	
+	
+	TimeTable Class:
+4.		deleteAppt function, line 214
+		function immediately adds the deleted appointment back into the list
+		so the function basically does nothing
