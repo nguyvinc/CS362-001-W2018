@@ -97,4 +97,5 @@ public class CalDayTest {
 		CalDay invalid = new CalDay();
 		assertNull(invalid.iterator());
 	}
+	
 }

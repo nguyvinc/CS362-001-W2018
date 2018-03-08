@@ -251,4 +251,5 @@ public class TimeTableTest {
 		LinkedList<Appt> result = new LinkedList<Appt>();
 		result = table.permute(apptList, array);
 	}
+	
 }

@@ -10,6 +10,7 @@ public class ApptTest {
     /**
      * Test that the gets methods work as expected.
      */
+	
 	@Test
 	public void test_apptConstructor ()  throws Throwable  {
 		int startHour=21;
