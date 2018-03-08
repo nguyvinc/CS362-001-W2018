@@ -116,7 +116,7 @@ public class Appt implements  Comparable<Appt>{
     	if(startHour<0 || startHour>23)
     		this.valid=false;
     	else
-        	if(startMinute<0 || startMinute>10) //bug here: decrease max from 59 to 10
+        	if(startMinute<0 || startMinute>10)
         		this.valid=false;
         	else
             	if(startDay<1 || startDay>NumDaysInMonth)
