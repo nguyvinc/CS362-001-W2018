@@ -31,7 +31,6 @@ public class CalendarUtilTest{
 		assertFalse(leap200);	//Supposed to be true, but is false. Asserting false to kill mutation
 		assertTrue(leap400);
 		assertTrue(leap4);
-		assertFalse(not_leap);
+		assertFalse(not_leap);	
 	}
-	
 }
