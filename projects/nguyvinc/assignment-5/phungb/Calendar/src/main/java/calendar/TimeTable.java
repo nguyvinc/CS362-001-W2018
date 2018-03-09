@@ -211,7 +211,6 @@ public class TimeTable {
 	        	Appt tempAppt=appts.get(i);
 	        	if(tempAppt.equals(appt)){
 	        		appts.remove(i);
-					appts.add(i, tempAppt);
 	        		return appts;
 	        	}
 	        		
