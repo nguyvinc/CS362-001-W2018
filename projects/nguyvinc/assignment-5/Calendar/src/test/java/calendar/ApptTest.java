@@ -104,11 +104,10 @@ public class ApptTest {
 		assertTrue(appt_month.getValid());
 		
 		//Create appointment with invalid months
-		//Creates errors
-		//appt_month.setStartMonth(0);
-		//assertFalse(appt_month.getValid());
-		//appt_month.setStartMonth(13);
-		//assertFalse(appt_month.getValid());
+		appt_month.setStartMonth(0);
+		assertFalse(appt_month.getValid());
+		appt_month.setStartMonth(13);
+		assertFalse(appt_month.getValid());
 		
 		
 		//Create appointment with a year
@@ -154,9 +153,9 @@ public class ApptTest {
 		assertTrue(appt.getValid());
 		
 		//Invalid month, causes errors
-		//appt.setStartMonth(14);
-		//assertEquals(14, appt.getStartMonth());
-		//assertFalse(appt.getValid());
+		appt.setStartMonth(14);
+		assertEquals(14, appt.getStartMonth());
+		assertFalse(appt.getValid());
 		
 		//Valid month
 		appt.setStartMonth(4);
