@@ -55,7 +55,7 @@ public class TimeTable {
 			if(!appt.getValid()) continue;
 			// Figure out which days the appointment occurs on
 			LinkedList<GregorianCalendar> apptOccursOnDays = getApptOccurences(
-					appt, lastDay, firstDay);
+					appt, firstDay, lastDay);
 
 			// For each day in the list, calculate the difference between the
 			// first day and the day of occurrence and add the appointment to

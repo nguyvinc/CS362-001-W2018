@@ -21,4 +21,9 @@ Bugs Detected:
 	TimeTable Class:
 4.		deleteAppt function, line 214
 		function immediately adds the deleted appointment back into the list
-		so the function basically does nothing
+		so the function basically does nothing.
+		
+
+5.		getApptRange function, line 58
+		function arguments "firstDay" and "lastDay" were swapped in the getApptOccurences
+		function call, so the function never added any appointments to the calendar.

@@ -27,7 +27,7 @@ public class TimeTableTest {
 		TimeTable table = new TimeTable();
 		GregorianCalendar day1 = new GregorianCalendar(2018, 1, 15);	//Year, month, day
 		GregorianCalendar day2 = new GregorianCalendar(2018, 1, 16);
-		
+	
 		//Add valid appt
 		LinkedList<Appt> listAppts = new LinkedList<Appt>();
 		Appt appt1 = new Appt(15, 30, 15, 1, 2018, "Title", "Description");	//Hour, minute, day, month, year
@@ -41,11 +41,12 @@ public class TimeTableTest {
 		//Add appt after day2
 		Appt appt2 = new Appt(18, 20, 24, 1, 2018, "Next Week", "Future");
 		listAppts.add(appt2);
-		
+	
 		LinkedList<CalDay> days = new LinkedList<CalDay>();
 		days = table.getApptRange(listAppts, day1, day2);
 		assertEquals(1, days.size());
 		assertEquals(appt1, days.get(0).appts.get(0));
+	
 	}	
 	
 	@Test
