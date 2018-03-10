@@ -219,6 +219,11 @@ public class TimeTableTest {
 		assertEquals(appt, listAppts.get(2));
 		assertEquals(appt, listAppts.get(3));
 		assertEquals(appt, listAppts.get(4));
+
+		for(int i=0; i<5; i++){
+			listAppts = table.deleteAppt(listAppts, appt);
+		}
+		assertEquals(0, listAppts.size());
 	}
 	
 	@Test

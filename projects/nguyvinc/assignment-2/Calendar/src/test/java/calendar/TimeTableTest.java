@@ -62,6 +62,7 @@ public class TimeTableTest {
 		assertEquals(13, multiple_days.size());
 	}
 	
+	
 	//Asserted that it should throw an exception
 	@Test(expected = DateOutOfRangeException.class)
 	public void test_dateOutOfRange() throws Throwable{
