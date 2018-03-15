@@ -34,7 +34,7 @@ public class UrlValidatorTest extends TestCase {
         assertFalse(urlVal.isValid(null));
         assertFalse(urlVal.isValid("facebook.com"));
         assertFalse(urlVal.isValid("test"));
-        assertFalse(urlVal.isValid("testing.com"));
+        assertFalse(urlVal.isValid("noodle/123"));
         assertFalse(urlVal.isValid("test_here"));
     }
    
