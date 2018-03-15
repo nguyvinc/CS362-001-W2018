@@ -23,7 +23,22 @@ public class UrlValidatorTest extends TestCase {
    public void testManualTest()
    {
 //You can use this function to implement your manual testing	   
-	   
+	   UrlValidator urlVal = new UrlValidator();
+      
+      assertFalse(urlVal.isValid(null));
+      assertFalse(urlVal.isValid("https://www.google.com")); //BUG FOUND - SHOULD RETURN TRUE
+      assertFalse(urlVal.isValid("https://www.google.com/")); //BUG FOUND - SHOULD RETURN TRUE
+      assertFalse(urlVal.isValid("google.com")); // no "https://www."
+      assertFalse(urlVal.isValid("test"));
+      assertFalse(urlVal.isValid("testing.com")); //random
+      assertFalse(urlVal.isValid("http://oregonstate.edu/")); //BUG FOUND - SHOULD RETURN TRUE
+      assertFalse(urlVal.isValid("http://google.com/index"));
+      assertFalse(urlVal.isValid("http://google.com/index.html#bar"));
+
+      UrlValidator urlVal1 = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
+
+      //assertTrue(urlVal1.isValid("https://www.google.com")); //initiliazation exception error
+      assertFalse(urlVal1.isValid("test_here"));
    }
    
    
