@@ -18,28 +18,25 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
 
-   
-   
-   public void testManualTest()
-   {
-//You can use this function to implement your manual testing	   
-	   UrlValidator urlVal = new UrlValidator();
-      
-      assertFalse(urlVal.isValid(null));
-      assertFalse(urlVal.isValid("https://www.google.com")); //BUG FOUND - SHOULD RETURN TRUE
-      assertFalse(urlVal.isValid("https://www.google.com/")); //BUG FOUND - SHOULD RETURN TRUE
-      assertFalse(urlVal.isValid("google.com")); // no "https://www."
-      assertFalse(urlVal.isValid("test"));
-      assertFalse(urlVal.isValid("testing.com")); //random
-      assertFalse(urlVal.isValid("http://oregonstate.edu/")); //BUG FOUND - SHOULD RETURN TRUE
-      assertFalse(urlVal.isValid("http://google.com/index"));
-      assertFalse(urlVal.isValid("http://google.com/index.html#bar"));
 
-      UrlValidator urlVal1 = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
 
-      //assertTrue(urlVal1.isValid("https://www.google.com")); //initiliazation exception error
-      assertFalse(urlVal1.isValid("test_here"));
-   }
+    public void testManualTest()
+    {
+//You can use this function to implement your manual testing
+        UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
+
+        assertTrue(urlVal.isValid("http://www.cdc.gov"));
+        assertTrue(urlVal.isValid("http://www.google.com/"));
+        assertTrue(urlVal.isValid("http://google.com/index"));
+        assertTrue(urlVal.isValid("http://google.com/index.html#bar"));
+        assertTrue(urlVal.isValid("http://oregonstate.edu/"));
+
+        assertFalse(urlVal.isValid(null));
+        assertFalse(urlVal.isValid("facebook.com"));
+        assertFalse(urlVal.isValid("test"));
+        assertFalse(urlVal.isValid("testing.com"));
+        assertFalse(urlVal.isValid("test_here"));
+    }
    
    
    public void testYourFirstPartition()
