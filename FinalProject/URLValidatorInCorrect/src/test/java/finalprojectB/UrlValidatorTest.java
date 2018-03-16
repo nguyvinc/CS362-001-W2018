@@ -54,12 +54,14 @@ public class UrlValidatorTest extends TestCase {
     //You need to create more test cases for your Partitions if you need to
    
     public void testIsValid(){
-	//You can use this function for programming based testing
+	    //You can use this function for programming based testing
+        //This functions tests one part of the URL at a time, checking valid and invalid URLs
         UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
         testURLSchemes(urlVal);
         testURLAuthority(urlVal);
         testURLPort(urlVal);
         testURLPath(urlVal);
+        testURLQuery(urlVal);
     }
 
     public void testURLSchemes(UrlValidator urlVal){
@@ -123,5 +125,13 @@ public class UrlValidatorTest extends TestCase {
         }
 
         //Cases with a path longer than 1 seem to fail
+    }
+
+    public void testURLQuery(UrlValidator urlVal){
+        String[] ValidURLQueries = {"", "?action=view", "?action=edit&mode=up", "?a=50"};
+        for(int i=0; i<4; i++){
+            String url = "http://www.google.com" + ValidURLQueries[i];    //Scheme must be "http://" or it will fail
+            assertTrue(urlVal.isValid(url));
+        }
     }
 }
