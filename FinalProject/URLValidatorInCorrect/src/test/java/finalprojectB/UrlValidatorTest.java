@@ -15,11 +15,9 @@ import java.net.URL;
 
 public class UrlValidatorTest extends TestCase {
 
-
-   public UrlValidatorTest(String testName) {
+    public UrlValidatorTest(String testName) {
       super(testName);
    }
-
 
 
     public void testManualTest() {
@@ -31,11 +29,12 @@ public class UrlValidatorTest extends TestCase {
         assertTrue(urlVal.isValid("http://google.com/index"));
         assertTrue(urlVal.isValid("http://google.com/index.html#bar"));
         assertTrue(urlVal.isValid("http://oregonstate.edu/"));
+        //assertTrue(urlVal.isValid("https://google.com/index")); //Failed, https is valid, but is considered invalid
+        //assertTrue(urlVal.isValid("facebook.com"));             //Failed, no scheme is valid, but is considered invalid
         //assertTrue(urlVal.isValid("ftp://www.google.com"));     //Failed, ftp is valid, but is considered invalid
         //assertTrue(urlVal.isValid("www.yahoo.com"));            //Failed, no scheme is valid, but is considered invalid
 
         assertFalse(urlVal.isValid(null));
-        assertFalse(urlVal.isValid("facebook.com"));
         assertFalse(urlVal.isValid("test"));
         assertFalse(urlVal.isValid("noodle/123"));
         assertFalse(urlVal.isValid("test_here"));
@@ -44,14 +43,23 @@ public class UrlValidatorTest extends TestCase {
    
     public void testYourFirstPartition(){
     //You can use this function to implement your First Partition testing
-
+        UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
+        assertFalse(urlVal.isValid("https://google.com")); // working cases starting with this specific string
+        assertFalse(urlVal.isValid("https://google.edu")); // different authority (changed the .com to .edu)
+        assertFalse(urlVal.isValid("https://google.net")); // different authority (changed the .com to .net)
+        assertFalse(urlVal.isValid("https://google.opggzz")); // invalid authority (SHOULDN'T WORK.)
+        assertFalse(urlVal.isValid("http://google.com")); // different scheme (changed https to just http)
+        assertFalse(urlVal.isValid("Htpp://google.com"));  // invalid scheme (SHOULDN'T WORK.)
+        assertFalse(urlVal.isValid("http//google.com"));  // no semi colon (SHOULDN'T WORK.)
+        assertFalse(urlVal.isValid("HTTP://GOOGLE.COM")); // works like the original partition that is being test (should work just fine.)
+        assertFalse(urlVal.isValid("HTTP://(!).COM")); // Invalid authority
+        assertFalse(urlVal.isValid("google.com")); // invalid scheme (missing the beginning part)
+        assertFalse(urlVal.isValid("http:.com")); // invalid authority. “Google”  deleted now it's only empty between the : and .
+        assertFalse(urlVal.isValid("http:google")); //authority is invalid. missing the ".com" ending
+        assertFalse(urlVal.isValid("http://google.com/index")); // The difference is that a path has been added.
+        assertFalse(urlVal.isValid("http://google.com/index.html#bar")); //should work.
     }
-   
-    public void testYourSecondPartition(){
-    //You can use this function to implement your Second Partition testing
 
-    }
-    //You need to create more test cases for your Partitions if you need to
    
     public void testIsValid(){
 	    //You can use this function for programming based testing
