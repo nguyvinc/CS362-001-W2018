@@ -44,7 +44,7 @@ public class UrlValidatorTest extends TestCase {
     public void testYourFirstPartition(){
     //You can use this function to implement your First Partition testing
         UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
-        assertFalse(urlVal.isValid("https://google.com")); // working cases starting with this specific string
+        /*assertFalse(urlVal.isValid("https://google.com")); // working cases starting with this specific string
         assertFalse(urlVal.isValid("https://google.edu")); // different authority (changed the .com to .edu)
         assertFalse(urlVal.isValid("https://google.net")); // different authority (changed the .com to .net)
         assertFalse(urlVal.isValid("https://google.opggzz")); // invalid authority (SHOULDN'T WORK.)
@@ -58,6 +58,7 @@ public class UrlValidatorTest extends TestCase {
         assertFalse(urlVal.isValid("http:google")); //authority is invalid. missing the ".com" ending
         assertFalse(urlVal.isValid("http://google.com/index")); // The difference is that a path has been added.
         assertFalse(urlVal.isValid("http://google.com/index.html#bar")); //should work.
+        */
     }
 
    
@@ -65,23 +66,24 @@ public class UrlValidatorTest extends TestCase {
 	    //You can use this function for programming based testing
         //This functions tests one part of the URL at a time, checking valid and invalid URLs
         UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
-        testURLSchemes(urlVal);
-        testURLAuthority(urlVal);
-        testURLPort(urlVal);
-        testURLPath(urlVal);
-        testURLQuery(urlVal);
+        testURLSchemes(urlVal);     //Test schemes
+        testURLAuthority(urlVal);   //Test authorities
+        testURLPort(urlVal);        //Test ports
+        testURLPath(urlVal);        //Test paths
+        testURLQuery(urlVal);       //Test queries
     }
 
     public void testURLSchemes(UrlValidator urlVal){
         String[] ValidURLSchemes = {"http://", "ftp://", "", "h3t://"};   //"ftp://", "", "h3t://" fail when they are valid
         for(int i=0; i<4; i++){
-            String url = ValidURLSchemes[i] + "www.google.com";
-            //assertTrue(urlVal.isValid(url));
+        //for(int i=1; i<2; i++){
+            String url = ValidURLSchemes[i] + "www.google.com"; //Test URL with valid scheme
+            //assertTrue(urlVal.isValid(url));                  //Should be valid
         }
         String[] InvalidURLSchemes = {"http", "hp://", "http/", "http:/", "http//", "fnp://"};  //Initialization errors
         for(int i=0; i<6; i++){
-            String url = InvalidURLSchemes[i] + "www.google.com";
-            //assertFalse(urlVal.isValid(url));
+            String url = InvalidURLSchemes[i] + "www.google.com"; //Test URL with invalid scheme
+            //assertFalse(urlVal.isValid(url));                   //Should be invalid
         }
 
         //URL fails if scheme isn't "http://"
@@ -90,15 +92,15 @@ public class UrlValidatorTest extends TestCase {
 
     public void testURLAuthority(UrlValidator urlVal){
         String[] ValidURLAuthorities = {"www.google.com", "oregonstate.edu", "www.youtube.com", "www.cdc.gov", "0.0.0.0"};
-        for(int i=0; i<5; i++){
+        for(int i=0; i<5; i++){                                 //Test URL with valid authority
             String url = "http://" + ValidURLAuthorities[i];    //Scheme must be "http://" or it will fail
-            assertTrue(urlVal.isValid(url));
+            assertTrue(urlVal.isValid(url));                    //Should be valid
         }
         String[] InvalidURLAuthorities = {"", "lol", "potato.k", "send_help"};
         for(int i=0; i<4; i++){
-            String url = "http://" + InvalidURLAuthorities[i];
-            //assertFalse(urlVal.isValid(url));
-            assertTrue(urlVal.isValid(url));        //url is supposed to be false, but is true
+            String url = "http://" + InvalidURLAuthorities[i];  //Test URL with invalid authority
+            //assertFalse(urlVal.isValid(url));                 //Should be invalid
+                                                                //url is supposed to be invalid, but is valid
         }
 
         //URL seems to always be true if scheme is "http://", even if authority is invalid
@@ -106,40 +108,40 @@ public class UrlValidatorTest extends TestCase {
 
     public void testURLPort(UrlValidator urlVal){
         String[] ValidURLPorts = {"", ":80", ":65535", ":0"};
-        for(int i=0; i<4; i++){
+        for(int i=0; i<4; i++){                                         //Test URL with valid port
             String url = "http://www.google.com" + ValidURLPorts[i];    //Scheme must be "http://" or it will fail
-            //assertTrue(urlVal.isValid(url));                          //All non-empty ports fail
+            //assertTrue(urlVal.isValid(url));                          //Should be valid, but is invalid
         }
         String[] InvalidURLPorts = {":-80", ":ab", "65536", "800"};
-        for(int i=0; i<4; i++){
-            String url = "http://www.google.com" + InvalidURLPorts[i];    //Scheme must be "http://" or it will fail
-            //assertFalse(urlVal.isValid(url));                           //All cases fail
+        for(int i=0; i<4; i++){                                         //Test URL with invalid port
+            String url = "http://www.google.com" + InvalidURLPorts[i];  //Scheme must be "http://" or it will fail
+            //assertFalse(urlVal.isValid(url));                         //Cases fail
         }
-
+        //All non-empty ports fail
         //All URLs with any port, valid or invalid, seems to fail
     }
 
     public void testURLPath(UrlValidator urlVal){
         String[] ValidURLPaths = {"", "/test", "/potato", "/1298", "/ice/cream", "/will/this/work"};
         //for(int i=0; i<6; i++){
-        for(int i=0; i<4; i++){
+        for(int i=0; i<4; i++){                                         //Test URL with valid path
             String url = "http://www.google.com" + ValidURLPaths[i];    //Scheme must be "http://" or it will fail
-            assertTrue(urlVal.isValid(url));                            //Fails on "/ice/cream" when it is valid
+            assertTrue(urlVal.isValid(url));                            //(BUG FOUND!!) Fails on "/ice/cream" and "/will/this/work" when they are valid
         }
         String[] InvalidURLPaths = {"/..", "/cake//", "/cheese//noodles"};
-        for(int i=0; i<3; i++){
-            String url = "http://www.google.com" + InvalidURLPaths[i];    //Scheme must be "http://" or it will fail
-            assertFalse(urlVal.isValid(url));
+        for(int i=0; i<3; i++){                                         //Test URL with invalid path
+            String url = "http://www.google.com" + InvalidURLPaths[i];  //Scheme must be "http://" or it will fail
+            assertFalse(urlVal.isValid(url));                           //URL should be invalid
         }
 
-        //Cases with a path longer than 1 seem to fail
+        //(BUG FOUND!!)Cases with a path longer than 1 seem to fail
     }
 
     public void testURLQuery(UrlValidator urlVal){
         String[] ValidURLQueries = {"", "?action=view", "?action=edit&mode=up", "?a=50"};
-        for(int i=0; i<4; i++){
+        for(int i=0; i<4; i++){                                           //Test URL with valid Query
             String url = "http://www.google.com" + ValidURLQueries[i];    //Scheme must be "http://" or it will fail
-            assertTrue(urlVal.isValid(url));
+            assertTrue(urlVal.isValid(url));                              //URL should be valid
         }
     }
 }
