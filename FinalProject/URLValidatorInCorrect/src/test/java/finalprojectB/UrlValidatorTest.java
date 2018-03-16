@@ -59,6 +59,7 @@ public class UrlValidatorTest extends TestCase {
         testURLSchemes(urlVal);
         testURLAuthority(urlVal);
         testURLPort(urlVal);
+        testURLPath(urlVal);
     }
 
     public void testURLSchemes(UrlValidator urlVal){
@@ -106,5 +107,21 @@ public class UrlValidatorTest extends TestCase {
         }
 
         //All URLs with any port, valid or invalid, seems to fail
+    }
+
+    public void testURLPath(UrlValidator urlVal){
+        String[] ValidURLPaths = {"", "/test", "/potato", "/1298", "/ice/cream", "/will/this/work"};
+        //for(int i=0; i<6; i++){
+        for(int i=0; i<4; i++){
+            String url = "http://www.google.com" + ValidURLPaths[i];    //Scheme must be "http://" or it will fail
+            assertTrue(urlVal.isValid(url));                            //Fails on "/ice/cream" when it is valid
+        }
+        String[] InvalidURLPaths = {"/..", "/cake//", "/cheese//noodles"};
+        for(int i=0; i<3; i++){
+            String url = "http://www.google.com" + InvalidURLPaths[i];    //Scheme must be "http://" or it will fail
+            assertFalse(urlVal.isValid(url));
+        }
+
+        //Cases with a path longer than 1 seem to fail
     }
 }
