@@ -44,20 +44,25 @@ public class UrlValidatorTest extends TestCase {
     public void testYourFirstPartition(){
     //You can use this function to implement your First Partition testing
         UrlValidator urlVal = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
-        /*assertFalse(urlVal.isValid("https://google.com")); // working cases starting with this specific string
+
+/*
         assertFalse(urlVal.isValid("https://google.edu")); // different authority (changed the .com to .edu)
         assertFalse(urlVal.isValid("https://google.net")); // different authority (changed the .com to .net)
         assertFalse(urlVal.isValid("https://google.opggzz")); // invalid authority (SHOULDN'T WORK.)
-        assertFalse(urlVal.isValid("http://google.com")); // different scheme (changed https to just http)
         assertFalse(urlVal.isValid("Htpp://google.com"));  // invalid scheme (SHOULDN'T WORK.)
-        assertFalse(urlVal.isValid("http//google.com"));  // no semi colon (SHOULDN'T WORK.)
-        assertFalse(urlVal.isValid("HTTP://GOOGLE.COM")); // works like the original partition that is being test (should work just fine.)
         assertFalse(urlVal.isValid("HTTP://(!).COM")); // Invalid authority
-        assertFalse(urlVal.isValid("google.com")); // invalid scheme (missing the beginning part)
         assertFalse(urlVal.isValid("http:.com")); // invalid authority. “Google”  deleted now it's only empty between the : and .
         assertFalse(urlVal.isValid("http:google")); //authority is invalid. missing the ".com" ending
         assertFalse(urlVal.isValid("http://google.com/index")); // The difference is that a path has been added.
-        assertFalse(urlVal.isValid("http://google.com/index.html#bar")); //should work.
+        assertFalse(urlVal.isValid("http//google.com"));  // no semi colon (SHOULDN'T WORK.)
+*/
+        //these are all examples of the URL that SHOULD WORK, but doesn't
+
+        assertTrue(urlVal.isValid("https://google.com")); // working cases starting with this specific string
+        /*assertTrue(urlVal.isValid("http://google.com")); // different scheme (changed https to just http)
+        assertTrue(urlVal.isValid("HTTP://GOOGLE.COM")); // works like the original partition that is being test (should work just fine.)
+        assertTrue(urlVal.isValid("google.com")); // invalid scheme (missing the beginning part)
+        assertTrue(urlVal.isValid("http://google.com/index.html#bar")); //should work.
         */
     }
 
@@ -93,7 +98,7 @@ public class UrlValidatorTest extends TestCase {
     public void testURLAuthority(UrlValidator urlVal){
         String[] ValidURLAuthorities = {"www.google.com", "oregonstate.edu", "www.youtube.com", "www.cdc.gov", "0.0.0.0"};
         for(int i=0; i<5; i++){                                 //Test URL with valid authority
-            String url = "http://" + ValidURLAuthorities[i];    //Scheme must be "http://" or it will fail
+            String url = "http://" + ValidURLAuthorities[i];
             assertTrue(urlVal.isValid(url));                    //Should be valid
         }
         String[] InvalidURLAuthorities = {"", "lol", "potato.k", "send_help"};
@@ -109,12 +114,12 @@ public class UrlValidatorTest extends TestCase {
     public void testURLPort(UrlValidator urlVal){
         String[] ValidURLPorts = {"", ":80", ":65535", ":0"};
         for(int i=0; i<4; i++){                                         //Test URL with valid port
-            String url = "http://www.google.com" + ValidURLPorts[i];    //Scheme must be "http://" or it will fail
+            String url = "http://www.google.com" + ValidURLPorts[i];
             //assertTrue(urlVal.isValid(url));                          //Should be valid, but is invalid
         }
         String[] InvalidURLPorts = {":-80", ":ab", "65536", "800"};
         for(int i=0; i<4; i++){                                         //Test URL with invalid port
-            String url = "http://www.google.com" + InvalidURLPorts[i];  //Scheme must be "http://" or it will fail
+            String url = "http://www.google.com" + InvalidURLPorts[i];
             //assertFalse(urlVal.isValid(url));                         //Cases fail
         }
         //All non-empty ports fail
@@ -125,12 +130,12 @@ public class UrlValidatorTest extends TestCase {
         String[] ValidURLPaths = {"", "/test", "/potato", "/1298", "/ice/cream", "/will/this/work"};
         //for(int i=0; i<6; i++){
         for(int i=0; i<4; i++){                                         //Test URL with valid path
-            String url = "http://www.google.com" + ValidURLPaths[i];    //Scheme must be "http://" or it will fail
+            String url = "http://www.google.com" + ValidURLPaths[i];
             assertTrue(urlVal.isValid(url));                            //(BUG FOUND!!) Fails on "/ice/cream" and "/will/this/work" when they are valid
         }
         String[] InvalidURLPaths = {"/..", "/cake//", "/cheese//noodles"};
         for(int i=0; i<3; i++){                                         //Test URL with invalid path
-            String url = "http://www.google.com" + InvalidURLPaths[i];  //Scheme must be "http://" or it will fail
+            String url = "http://www.google.com" + InvalidURLPaths[i];
             assertFalse(urlVal.isValid(url));                           //URL should be invalid
         }
 
@@ -140,7 +145,7 @@ public class UrlValidatorTest extends TestCase {
     public void testURLQuery(UrlValidator urlVal){
         String[] ValidURLQueries = {"", "?action=view", "?action=edit&mode=up", "?a=50"};
         for(int i=0; i<4; i++){                                           //Test URL with valid Query
-            String url = "http://www.google.com" + ValidURLQueries[i];    //Scheme must be "http://" or it will fail
+            String url = "http://www.google.com" + ValidURLQueries[i];
             assertTrue(urlVal.isValid(url));                              //URL should be valid
         }
     }
