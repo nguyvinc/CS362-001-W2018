@@ -56,7 +56,7 @@ public class UrlValidatorTest extends TestCase {
         assertFalse(urlVal.isValid("http://google.com/index")); // The difference is that a path has been added.
         assertFalse(urlVal.isValid("http//google.com"));  // no semi colon (SHOULDN'T WORK.)
 */
-        //these are all examples of the URL that SHOULD WORK, but doesn't
+        //these are all examples of the URL that SHOULD WORK, but don't
 
         assertTrue(urlVal.isValid("https://google.com")); // working cases starting with this specific string
         /*assertTrue(urlVal.isValid("http://google.com")); // different scheme (changed https to just http)
